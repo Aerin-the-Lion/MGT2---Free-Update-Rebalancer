@@ -1,5 +1,5 @@
 # MGT2---Free-Update-Rebalancer
-The mod allows rebalance Free Update of your games.
+The mod allows rebalance  Free Update of your games with config by yourself!
 
 # [How it works?]
 This mod allows rebalance Free Update of your games.
