@@ -26,7 +26,7 @@ For now, the following three can be adjusted.
 1.1. Install BepInEx(x84) fix patch(MMTestFix.Zip)
 <br>https://github.com/BepInEx/BepInEx/issues/458
 <br>https://github.com/BepInEx/BepInEx/files/9275584/MMTestFix.zip
-<br>After extract zip, Drag and Drop all of files into "...\Mad Games Tycoon 2\BepInEx\coreBepInEx\core"
+<br>After extract zip, Drag and Drop all of files into "...\Mad Games Tycoon 2\BepInEx\core"
 
 2. Install BepInEx.ConfigurationManager v17.1
 <br>https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v17.1/BepInEx.ConfigurationManager_v17.1.zip
