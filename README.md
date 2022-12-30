@@ -20,7 +20,7 @@ For now, the following three can be adjusted.
 <br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
 2. Install BepInEx.ConfigurationManager v17.1
-<br>https://github.com/BepInEx/BepInEx.ConfigurationManager/releases
+<br>https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v17.1/BepInEx.ConfigurationManager_v17.1.zip
 <br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
 3. Install My mod of Free-Update-Rebalancer. 
