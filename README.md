@@ -24,7 +24,8 @@ For now, the following three can be adjusted.
 <br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
 1.1. Install BepInEx(x84) fix patch(MMTestFix.Zip)
-<brhttps://github.com/BepInEx/BepInEx/issues/458
+<br>https://github.com/BepInEx/BepInEx/issues/458
+<br>https://github.com/BepInEx/BepInEx/files/9275584/MMTestFix.zip
 
 2. Install BepInEx.ConfigurationManager v17.1
 <br>https://github.com/BepInEx/BepInEx.ConfigurationManager/releases/download/v17.1/BepInEx.ConfigurationManager_v17.1.zip
