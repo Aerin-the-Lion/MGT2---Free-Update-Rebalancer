@@ -15,18 +15,21 @@ For now, the following three can be adjusted.
 3. Enjoy!
 
 # [How to install?]
-1. Install BepInEx5.4.21(x84) https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip
-After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
+1. Install BepInEx5.4.21(x84)
+<br>https://github.com/BepInEx/BepInEx/releases/download/v5.4.21/BepInEx_x86_5.4.21.0.zip
+<br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
-2. Install BepInEx.ConfigurationManager v17.1 https://github.com/BepInEx/BepInEx.ConfigurationManager/releases
-After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
+2. Install BepInEx.ConfigurationManager v17.1
+<br>https://github.com/BepInEx/BepInEx.ConfigurationManager/releases
+<br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
-3. Install My mod of Free-Update-Rebalancer.
-After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
+3. Install My mod of Free-Update-Rebalancer. 
+<br>https://github.com/Aerin-the-Lion/MGT2---Free-Update-Rebalancer/releases/download/Release/MGT2-Free-Update-Rebalancer_v1.00.rar
+<br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
 # [Contact]
 This mod still unstable cuz I'm beginner of modding.
-Please give me advice or report if you got error or crashes.
-Sorry for my bad english.
-
-Thank you!
+<br>Please give me advice or report if you got error or crashes.
+<br>Sorry for my bad english.
+<br>
+<br>Thank you!
