@@ -13,6 +13,10 @@ For now, the following three can be adjusted.
 1. In Main menu or In Game, Please press [F1] to open Config Manager.
 2. Then, Click Free-Update-Rebalancer and adjust value if you want to.
 3. Enjoy!
+![20221230175454_1](https://user-images.githubusercontent.com/96946287/210052477-5a8552e6-6c3a-4cee-a2f8-d73eacdc7da2.jpg)
+![20221230175509_1](https://user-images.githubusercontent.com/96946287/210052483-710e4bbb-e24b-4470-ac30-175d47af2c81.jpg)
+
+
 
 # [How to install?]
 1. Install BepInEx5.4.21(x84)
