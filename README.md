@@ -8,6 +8,9 @@ For now, the following three can be adjusted.
 1. Costs of Free Update ( Default : 1, The higher this value, the higher cost you require to development.)
 2. Add Points of Free Update ( Default : 1, The higher this value, the more points you get.)
 3. Development Time of Free Update ( Default : 1, The lower this value, the slower to development)
+4. Extra Hype of Free Update ( Default : 0, This is not feature in original game. The value to addition the Hype of Free Update. The higher this value, the more hypes you get.)
+5. Extra Fans of Free Update ( Default : 0, ###Unstable### This is not feature in original game. The value to addition the Fun of Free Update. The higher this value, the more funs you get. But It's not actual number you type add fans to your group.)
+
 
 # [How to use?]
 1. In Main menu or In Game, Please press [F1] to open Config Manager.
