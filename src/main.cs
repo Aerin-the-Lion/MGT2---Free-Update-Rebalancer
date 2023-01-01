@@ -62,6 +62,8 @@ namespace FreeUpdateRebalancer
         public static ConfigEntry<float> devAddHypeAdditionValue { get; private set; }
         // Free Updateの追加Hype倍率
         public static ConfigEntry<float> devAddFunAdditionValue { get; private set; }
+        // Free Updateの追加Hype倍率
+        public static ConfigEntry<float> devBonusSellsMultiplyValue { get; private set; }
 
         public void Load_FreeUpdateRebalancer()
         {
@@ -71,6 +73,7 @@ namespace FreeUpdateRebalancer
             devTimeMultiplyValue = Config.Bind<float>(text, "Multiply Value : Development Time", 1.0f, "The value to multiply the development time of Free Update. The lower this value, the slower to development. Default : 1");
             devAddHypeAdditionValue = Config.Bind<float>(text, "Extra Points : Add Hype", 0f, "This is not feature in original game. The value to addition the Hype of Free Update. The higher this value, the more hypes you get. Default : 0");
             devAddFunAdditionValue = Config.Bind<float>(text, "Multiply Value : Add Fun", 0f, "###Unstable### This is not feature in original game. The value to addition the Fun of Free Update. The higher this value, the more funs you get. But It's not actual number you type add fans to your group. Default : 0");
+            devBonusSellsMultiplyValue = Config.Bind<float>(text, "Multiply Value : Bonus Sells", 0f, "The value to addition the Fun of Free Update. The higher this value, the more bonus sells on Market. Default : 0");
 
             Config.SettingChanged += delegate (object sender, SettingChangedEventArgs args)
             {
