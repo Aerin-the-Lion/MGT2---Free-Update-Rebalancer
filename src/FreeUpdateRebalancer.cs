@@ -236,6 +236,11 @@ namespace FreeUpdateRebalancer
 			return false;
 		}
 		*/
+		/// <summary>
+		/// 押したボタンの数を記録しておく。
+		/// </summary>
+		public static int buttonsAmount { get; private set; }
+
 		public void AddSomethingEachButton()
 		{
 			foreach (gameScript gameScript in UnityEngine.Object.FindObjectsOfType<gameScript>())
@@ -273,6 +278,55 @@ namespace FreeUpdateRebalancer
 				}
 			}
 		}
+		public void taskUpdate_Complete_Injecter()
+		{
+			FreeUpdateRebalancer freeUpdateRebalancer = new FreeUpdateRebalancer();
+			foreach (roomScript roomScript in UnityEngine.Object.FindObjectsOfType<roomScript>())
+            {
+				if(roomScript != null)
+                {
+					GameObject taskGameObject = roomScript.taskGameObject;
+                    if (taskGameObject)
+                    {
+						taskUpdate taskUpdateObject = taskGameObject.GetComponent<taskUpdate>();
+						if (taskUpdateObject)
+                        {
+							//オリジナルのFree Updateで増やした分を減らす。
+							taskUpdateObject.gS_.costs_updates += (long)taskUpdateObject.devCosts;
+							taskUpdateObject.gS_.amountUpdates++;
+							taskUpdateObject.gS_.bonusSellsUpdates -= taskUpdateObject.quality / (float)taskUpdateObject.gS_.amountUpdates;
+
+							//予め保存しておいたボタンの数で増やしていく。
+							for (int j = 0; j < buttonsAmount; j++)
+							{
+								//Hype, Fansなどの設定
+								freeUpdateRebalancer.AddSomethingEachButton();
+
+								//ポイントなどの設定
+								taskUpdateObject.gS_.bonusSellsUpdates += (taskUpdateObject.quality * MainPlugin.devBonusSellsMultiplyValue.Value)  / (float)taskUpdateObject.gS_.amountUpdates;
+								if ((double)taskUpdateObject.gS_.bonusSellsUpdates > MainPlugin.devBonusSellsMultiplyValue.Value)
+								{
+									taskUpdateObject.gS_.bonusSellsUpdates = MainPlugin.devBonusSellsMultiplyValue.Value;
+								}
+
+							}
+							//init buttonsAmount
+							buttonsAmount = 0;
+						
+						}
+					}
+                }
+            }
+		}
+
+		[HarmonyPostfix, HarmonyPatch(typeof(taskUpdate), "Complete")]
+		static void taskUpdate_Complete_PrePatch()
+        {
+			FreeUpdateRebalancer FreeUpdateRebalancer = new FreeUpdateRebalancer();
+			FreeUpdateRebalancer.taskUpdate_Complete_Injecter();
+
+		}
+
 
 		[HarmonyPrefix, HarmonyPatch(typeof(Menu_Dev_Update), "GetP_Gameplay")]
 		static bool GetP_GameplayPatch(Menu_Dev_Update __instance, gameScript ___gS_, ref int __result)
@@ -407,16 +461,20 @@ namespace FreeUpdateRebalancer
 			return false;
 		}
 
+
 		[HarmonyPostfix, HarmonyPatch(typeof(Menu_Dev_Update), "BUTTON_Start")]
 		static void BUTTON_StartPatch(Menu_Dev_Update __instance, gameScript ___gS_, mainScript ___mS_, GUI_Main ___guiMain_, roomScript ___rS_)
 		{
+			//init buttonsAmount;
+			buttonsAmount = 0;
 			bool[] buttonAdds = Traverse.Create(__instance).Field("buttonAdds").GetValue<bool[]>();
 			for (int j = 0; j < buttonAdds.Length; j++)
 			{
 				if (buttonAdds[j])
 				{
-					FreeUpdateRebalancer freeUpdateRebalancer = new FreeUpdateRebalancer();
-					freeUpdateRebalancer.AddSomethingEachButton();
+					buttonsAmount++;
+					//FreeUpdateRebalancer freeUpdateRebalancer = new FreeUpdateRebalancer();
+					//freeUpdateRebalancer.AddSomethingEachButton();
 				}
 			}
 
@@ -487,8 +545,8 @@ namespace FreeUpdateRebalancer
 			return false;
 		}
 		*/
-		// Total Game Development Speed with Character
-		[HarmonyPostfix, HarmonyPatch(typeof(characterScript), "GetWorkSpeed")]
+					// Total Game Development Speed with Character
+					[HarmonyPostfix, HarmonyPatch(typeof(characterScript), "GetWorkSpeed")]
 		static void GetWorkSpeed_PostPatch(characterScript __instance, mainScript ___mS_, ref float __result, roomScript ___roomS_)
 		{
 			float num = __result;
