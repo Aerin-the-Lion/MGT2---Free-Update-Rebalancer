@@ -10,7 +10,7 @@ For now, the following six can be adjusted.
 3. Development Time of Free Update ( Default : 1, The lower this value, the slower to development)
 4. Extra Hype of Free Update ( Default : 0, This is not feature in original game. The value to addition the Hype of Free Update. The higher this value, the more hypes you get.)
 5. Extra Fans of Free Update ( Default : 0, ###Unstable### This is not feature in original game. The value to addition the Fun of Free Update. The higher this value, the more funs you get. But It's not actual number you type add fans to your group.)
-6. Extra Bonus Sells of Free Update ( Default : 0 , The value to addition the Fun of Free Update. The higher this value, the more bonus sells on Market.)
+6. Extra Bonus Sells of Free Update ( Default : 1 , The value to addition the Fun of Free Update. The higher this value, the more bonus sells on Market.)
 
 
 # [How to use?]
