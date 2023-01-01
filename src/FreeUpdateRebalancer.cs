@@ -1,4 +1,5 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,18 +19,14 @@ namespace FreeUpdatePatcher
 	[HarmonyPatch(typeof(Menu_Dev_Update))]
 	public class FreeUpdatePatcher
     {
-
 		//[HarmonyPrefix, HarmonyPatch(typeof(Menu_Dev_Update), "BUTTON_Start")]
 		static bool Prefix(Menu_Dev_Update __instance, gameScript ___gS_, gameScript ___rS_, GUI_Main ___guiMain_, textScript ___tS_, sfxScript ___sfx_, mainScript ___mS_)
 		{
 			Menu_Dev_Update m = new Menu_Dev_Update();
 			bool[] buttonAdds = Traverse.Create(m).Field("buttonAdds").GetValue<bool[]>();
 			bool[] sprachen = Traverse.Create(m).Field("sprachen").GetValue<bool[]>();
-
 			//!!!!!testing!!!!!!!
 			gameScript hoge = (gameScript)Traverse.Create(m).Field("gS_").GetValue();
-
-
 			//bool[] buttonAdds = AccessTools.StaticFieldRefAccess<bool[]>(typeof(Menu_Dev_Update), "buttonAdds");
 			//bool[] sprachen = AccessTools.StaticFieldRefAccess<bool[]>(typeof(Menu_Dev_Update), "sprachen");
 			var GetDevCosts = AccessTools.Method(typeof(Menu_Dev_Update), "GetDevCosts").;
@@ -38,7 +35,6 @@ namespace FreeUpdatePatcher
 			var GetP_Sound = AccessTools.Method(typeof(Menu_Dev_Update), "GetP_Sound");
 			var GetP_Technik = AccessTools.Method(typeof(Menu_Dev_Update), "GetP_Technik");
 			var GetP_Bugs = AccessTools.Method(typeof(Menu_Dev_Update), "GetP_Bugs");
-
 			int num = Mathf.RoundToInt((float)GetDevCosts.Invoke(__instance, new object[] { }));
 			if (!___gS_)
 			{
@@ -110,20 +106,17 @@ namespace FreeUpdatePatcher
 			}
 			___guiMain_.CloseMenu();
 			gameObject.SetActive(false);
-
-
 			return false;
 		}
 	}
 }
-
 */
 
 
 namespace FreeUpdateRebalancer
 {
 
-	public class FreeUpdateRebalancer : BaseUnityPlugin
+	public class FreeUpdateRebalancer
 	{
 		/*
 		[HarmonyPrefix, HarmonyPatch(typeof(Menu_Dev_Update), "BUTTON_Start")]
@@ -132,7 +125,6 @@ namespace FreeUpdateRebalancer
 			Debug.Log("Button1");
 			bool[] buttonAdds = Traverse.Create(__instance).Field("buttonAdds").GetValue<bool[]>();
 			bool[] sprachen = Traverse.Create(__instance).Field("sprachen").GetValue<bool[]>();
-
 			//!!!!!testing!!!!!!!
 			//gameScript gS_ = (gameScript)Traverse.Create(m).Field("gS_").GetValue();
 			//gameScript rS_ = (gameScript)Traverse.Create(m).Field("rS_").GetValue();
@@ -140,17 +132,14 @@ namespace FreeUpdateRebalancer
 			//textScript tS_ = (textScript)Traverse.Create(m).Field("tS_").GetValue();
 			//sfxScript sfx_ = (sfxScript)Traverse.Create(m).Field("sfx_").GetValue();
 			//mainScript mS_ = (mainScript)Traverse.Create(m).Field("mS_").GetValue();
-
 			//bool[] buttonAdds = AccessTools.StaticFieldRefAccess<bool[]>(typeof(Menu_Dev_Update), "buttonAdds");
 			//bool[] sprachen = AccessTools.StaticFieldRefAccess<bool[]>(typeof(Menu_Dev_Update), "sprachen");
 			long GetDevCosts = Traverse.Create(__instance).Method("GetDevCosts").GetValue<long>();
 			int GetP_Gameplay = Traverse.Create(__instance).Method("GetP_Gameplay").GetValue<int>();
-
 			int GetP_Grafik = Traverse.Create(__instance).Method("GetP_Grafik").GetValue<int>();
 			int GetP_Sound = Traverse.Create(__instance).Method("GetP_Sound").GetValue<int>();
 			int GetP_Technik = Traverse.Create(__instance).Method("GetP_Technik").GetValue<int>();
 			int GetP_Bugs = Traverse.Create(__instance).Method("GetP_Bugs").GetValue<int>();
-
 			Debug.Log("gS_ : " + ___gS_);
 			Debug.Log("___gS_.GetGesamtDevPoints() : " + ___gS_.GetGesamtDevPoints());
 			Debug.Log("rS : " + ___rS_);
@@ -158,10 +147,7 @@ namespace FreeUpdateRebalancer
 			Debug.Log("tS_ : " + ___tS_);
 			Debug.Log("sfx_ : " + ___sfx_);
 			Debug.Log("GetDevCosts : " + GetDevCosts);
-
-
 			Debug.Log("Button2");
-
 			int num = Mathf.RoundToInt((float)GetDevCosts);
 			if (!___gS_)
 			{
@@ -195,14 +181,11 @@ namespace FreeUpdateRebalancer
 				}
 			}
 			Debug.Log("Button3");
-
 			___sfx_.PlaySound(3, true);
 			___mS_.Pay((long)num, 15);
 			//mS_.Pay((long)(num * 99), 15);
-
 			GameObject gameObject = GameObject.Find("Room_" + ___rS_.myID.ToString());
 			var taskID = gameObject.GetComponent<roomScript>().taskID;
-
 			taskUpdate taskUpdate = ___guiMain_.AddTask_Update();
 			taskUpdate.Init(false);
 			taskUpdate.targetID = ___gS_.myID;
@@ -246,16 +229,50 @@ namespace FreeUpdateRebalancer
 				gameObject.GetComponent<roomScript>().taskID = taskUpdate.myID;
 				Debug.Log("Button 6 ex");
 			}
-
 			Debug.Log("Button7");
 			___guiMain_.CloseMenu();
 			Debug.Log("Button8");
 			Debug.Log("Button Activated");
-
 			return false;
 		}
 		*/
-		
+		public void AddSomethingEachButton()
+		{
+			foreach (gameScript gameScript in UnityEngine.Object.FindObjectsOfType<gameScript>())
+			{
+				if (gameScript != null)
+				{
+					GameObject gameObject2 = GameObject.Find("GAME_" + gameScript.myID.ToString());
+					gameScript gameScript2 = gameObject2.GetComponent<gameScript>();
+					if (MainPlugin.devAddHypeAdditionValue.Value != 0f)
+					{
+						gameScript2.AddHype(MainPlugin.devAddHypeAdditionValue.Value);
+					}
+					if (MainPlugin.devAddFunAdditionValue.Value != 0f)
+					{
+						//genres genres = gameObject2.GetComponent<genres>();
+						if (gameScript2.mS_.genres_.GetAmountFans() == 0)
+						{
+							gameScript2.mS_.genres_.genres_FANS[gameScript2.maingenre] += 1;
+
+						}
+						int genre_ = gameScript2.maingenre;
+						if (gameScript2.subgenre != -1 && UnityEngine.Random.Range(0, 100) > 70)
+						{
+							genre_ = gameScript2.subgenre;
+						}
+
+						int sells = gameScript2.sellsPerWeek[1];
+						float sellsEffect = gameScript2.sellsPerWeek[1] * 0.01f;
+						try
+						{
+							gameScript2.mS_.AddFans(Mathf.RoundToInt(sellsEffect * MainPlugin.devAddFunAdditionValue.Value), genre_);
+						}
+						catch { }
+					}
+				}
+			}
+		}
 
 		[HarmonyPrefix, HarmonyPatch(typeof(Menu_Dev_Update), "GetP_Gameplay")]
 		static bool GetP_GameplayPatch(Menu_Dev_Update __instance, gameScript ___gS_, ref int __result)
@@ -390,43 +407,24 @@ namespace FreeUpdateRebalancer
 			return false;
 		}
 
-		/*
 		[HarmonyPostfix, HarmonyPatch(typeof(Menu_Dev_Update), "BUTTON_Start")]
 		static void BUTTON_StartPatch(Menu_Dev_Update __instance, gameScript ___gS_, mainScript ___mS_, GUI_Main ___guiMain_, roomScript ___rS_)
 		{
 			bool[] buttonAdds = Traverse.Create(__instance).Field("buttonAdds").GetValue<bool[]>();
-
-			//GameObject gameObject = GameObject.Find("Room_" + ___rS_.myID.ToString());
-			//var taskID = gameObject.GetComponent<roomScript>().taskID;
-			//taskUpdate taskUpdate = gameObject
-
-			GameObject gameObject = GameObject.Find("Room_" + ___rS_.myID.ToString());
-			//taskUpdate taskUpdate = ___rS_.GetTaskUpdate();
-			taskUpdate taskUpdate = gameObject.AddComponent<taskUpdate>();
-			taskUpdate.Init(true);
-			Debug.Log(taskUpdate.myID);
-			taskUpdate.targetID = ___gS_.myID;
-			float num2 = (float)___gS_.GetGesamtDevPoints();
-			num2 *= 0.1f;
-			taskUpdate.points = (float)Mathf.RoundToInt(num2);
-
-			float devTime = (float)Mathf.RoundToInt((float)___gS_.GetGesamtDevPoints() * MainPlugin.devTimeMultiplyValue.Value);
 			for (int j = 0; j < buttonAdds.Length; j++)
 			{
 				if (buttonAdds[j])
 				{
-					taskUpdate.quality += 0.1f * MainPlugin.devCostMultiplyValue.Value;
-					taskUpdate.points += (float)Mathf.RoundToInt(devTime * 0.02f);
+					FreeUpdateRebalancer freeUpdateRebalancer = new FreeUpdateRebalancer();
+					freeUpdateRebalancer.AddSomethingEachButton();
 				}
 			}
-			taskUpdate.pointsLeft = taskUpdate.points;
-			Debug.Log(taskUpdate.pointsLeft);
+
 		}
-		*/
 
 		[HarmonyPostfix, HarmonyPatch(typeof(Menu_Dev_Update), "Init")]
 		static void InitPatch(Menu_Dev_Update __instance, gameScript ___gS_, mainScript ___mS_)
-        {
+		{
 			long num = ___gS_.costs_entwicklung + ___gS_.costs_updates;
 
 			var m = Traverse.Create("Menu_Dev_Update");
@@ -469,7 +467,6 @@ namespace FreeUpdateRebalancer
 			{
 				num *= 0.25f;
 			}
-
 			//**** Added ****
 			try
 			{
@@ -480,7 +477,6 @@ namespace FreeUpdateRebalancer
 				}
 			} catch (Exception e){}
 			//Debug.Log("TaskGame ID :" + taskID);
-
 			//**** Added ended ****
 			if (___mS_.settings_arbeitsgeschwindigkeitAnpassen)
 				{
