@@ -4,7 +4,7 @@ The mod allows rebalance  Free Update of your games with config by yourself!
 # [How it works?]
 This mod allows rebalance Free Update of your games.
 
-For now, the following three can be adjusted.
+For now, the following six can be adjusted.
 1. Costs of Free Update ( Default : 1, The higher this value, the higher cost you require to development.)
 2. Add Points of Free Update ( Default : 1, The higher this value, the more points you get.)
 3. Development Time of Free Update ( Default : 1, The lower this value, the slower to development)
