@@ -42,13 +42,11 @@ namespace FreeUpdateRebalancer
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInProcess("Mad Games Tycoon 2.exe")]
-
-    //[BepInPlugin("user.aerin.plugin.FreeUpdatePatcher", "FreeUpdatePatcher", "0.0.1")]
     public class MainPlugin : BaseUnityPlugin
     {
         public const string PluginGuid = "aerin.Mad_Games_Tycoon_2.plugins.FreeUpdateRebalancer";
         public const string PluginName = "FreeUpdateRebalancer";
-        public const string PluginVersion = "1.0.1.0";
+        public const string PluginVersion = "1.1.1.0";
 
         //https://www.ipentec.com/document/csharp-auto-implemented-property get, setのおまじないの内容
         // ****** Setting ******
@@ -72,8 +70,8 @@ namespace FreeUpdateRebalancer
             devAddPointMultiplyValue = Config.Bind<float>(text, "Multiply Value : Add Points", 1.0f, "The value to multiply the add extra points of Free Update. The higher this value, the more points you get. Default : 1");
             devTimeMultiplyValue = Config.Bind<float>(text, "Multiply Value : Development Time", 1.0f, "The value to multiply the development time of Free Update. The lower this value, the slower to development. Default : 1");
             devAddHypeAdditionValue = Config.Bind<float>(text, "Extra Points : Add Hype", 0f, "This is not feature in original game. The value to addition the Hype of Free Update. The higher this value, the more hypes you get. Default : 0");
-            devAddFunAdditionValue = Config.Bind<float>(text, "Multiply Value : Add Fun", 0f, "###Unstable### This is not feature in original game. The value to addition the Fun of Free Update. The higher this value, the more funs you get. But It's not actual number you type add fans to your group. Default : 0");
-            devBonusSellsMultiplyValue = Config.Bind<float>(text, "Multiply Value : Bonus Sells", 1f, "The value to addition the Fun of Free Update. The higher this value, the more bonus sells on Market. Default : 0");
+            devAddFunAdditionValue = Config.Bind<float>(text, "Multiply Value : Add Fans", 0f, "###Unstable### This is not feature in original game. The value to addition the fans of Free Update. The higher this value, the more fans you get. But It's not actual number you type add fans to your group. Default : 0");
+            devBonusSellsMultiplyValue = Config.Bind<float>(text, "Multiply Value : Bonus Sells", 1f, "The value to addition the bonus sells of Free Update. The higher this value, the more bonus sells on Market. Default : 0");
 
             Config.SettingChanged += delegate (object sender, SettingChangedEventArgs args)
             {
@@ -82,15 +80,13 @@ namespace FreeUpdateRebalancer
 
         void Awake()
         {
-            //Harmony harmony = new Harmony(PluginGuid);
             Load_FreeUpdateRebalancer();
             Harmony.CreateAndPatchAll(typeof(FreeUpdateRebalancer));
-            Debug.Log("Hello World!");
         }
 
         void Update()
         {
-            //base.gameObject.SetActive(false);
+
         }
 
 
