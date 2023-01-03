@@ -6,29 +6,14 @@ This mod allows rebalance Free Update of your games.
 <br>
 For now, the following eight can be adjusted.<br>
 <br>
- 1. Costs every of Free Update<br>
- ( Default : 1, The higher this value, the higher cost you require to development.)
-<br>
- 2. Add Points of Free Update<br>
-( Default : 1, The higher this value, the more points you get.)
-<br>
- 3. Development Time of Free Update<br>
- ( Default : 1, The lower this value, the slower to development)
-<br>
- 4. Additional Hype for every free update<br>
- ( Default : 0, This is not feature in original game. The value to addition the Hype of Free Update. The higher this value, the more hypes you get.)
-<br>
- 5. Additional Fans for every Free Update<br>
- ( Default : 0, ###Unstable### This is not feature in original game. The higher this value, the more fans you get. But It's not actual number you type add fans to your group.)
-<br>
- 6. Additional Bonus Sells for every Free Update<br>
-( Default : 1 , The value to addition the bonus sells of Free Update. The higher this value, the more bonus sells on Market.)
-<br>
- 7. Additional IP points for every Free Update<br>
-( Default : 0 , ###be careful with game balance### This is not feature in original game. The value to addition the IP points of Free Update. The higher this value, the more IP Points your game's IP get. **200 IP Points per 1 IP** )
-<br>
- 8. Reset Bored Fans for every Free Update at n% chance<br>
-( Default : 0 , This is not feature in original game. If you got ****in' Bored Fans, Free Update cares this debuff at n% chance. **Bored Fans come back to debuff again every monthly.**)
+1. Costs every of Free Update<br>( Default : 1, The higher this value, the higher cost you require to development.)<br>
+2. Add Points of Free Update<br>( Default : 1, The higher this value, the more points you get.)
+3. Development Time of Free Update<br>( Default : 1, The lower this value, the slower to development)
+4. Additional Hype for every free update<br>( Default : 0, This is not feature in original game. The value to addition the Hype of Free Update. The higher this value, the more hypes you get.)
+5. Additional Fans for every Free Update<br>( Default : 0, ###Unstable### This is not feature in original game. The higher this value, the more fans you get. But It's not actual number you type add fans to your group.)
+6. Additional Bonus Sells for every Free Update<br>( Default : 1 , The value to addition the bonus sells of Free Update. The higher this value, the more bonus sells on Market.)
+7. Additional IP points for every Free Update<br>( Default : 0 , ###be careful with game balance### This is not feature in original game. The value to addition the IP points of Free Update. The higher this value, the more IP Points your game's IP get. **200 IP Points per 1 IP** )
+8. Reset Bored Fans for every Free Update at n% chance<br>( Default : 0 , This is not feature in original game. If you got ****in' Bored Fans, Free Update cares this debuff at n% chance. **Bored Fans come back to debuff again every monthly.**)
 <br>
 
 # [How to use?]
