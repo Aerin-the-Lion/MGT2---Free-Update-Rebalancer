@@ -58,6 +58,23 @@ For now, the following eight can be adjusted.
 <br>https://github.com/Aerin-the-Lion/MGT2---Free-Update-Rebalancer/releases/download/Release/MGT2-Free-Update-Rebalancer_v1.00.rar
 <br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
+[H2][Compatible version][/H2]
+Main game : Build 2023.01.03A(Vanilla)
+MGT2-Free-Update-Rebalancer : v1.20
+If main game updates adjust about Free Update probably it doesn't work.
+
+[H2][Known issues][/H2]
+・None
+
+[H2][In the future  :  Free-Update-Rebalancer][/H2]
+・Template setting with dropdown.
+・Considering the overall game balance. In the real world, most of the games need constant updates to get more players(consumers), so I'm going to more buff to free updates and nerf to main game dev speed and sales...)
+・And more...
+
+[H2][In the future  :  other][/H2]
+・Add parmanent buff every country(or other perk I made?).
+Example of Super dev team perk : +50% dev speed but cannot use self publishing, arcade, support&market etc...)
+
 # [Contact]
 This mod still unstable cuz I'm beginner of modding.
 <br>Please give me advice or report if you got error or crashes.
