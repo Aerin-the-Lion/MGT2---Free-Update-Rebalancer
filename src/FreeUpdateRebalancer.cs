@@ -26,8 +26,11 @@ namespace FreeUpdateRebalancer
 		/// 記録しておく。
 		/// </summary>
 		public static gameScript _tmpUpdateGameScript { get; private set; }
+		public static GUI_Main _tmpUpdateGuiMain { get; private set; }
+		public static mainScript _tmpUpdatemainScript { get; private set; }
 		public static int _amountUpdateAmount { get; private set; }
 		public static int _roomID { get; private set; }
+		public static bool enabledBoredFans { get; private set; }
 
 		public void Rebalancer_AddHype(gameScript gameScript)
 		{
@@ -69,19 +72,93 @@ namespace FreeUpdateRebalancer
 			}
 		}
 
+		public void Rebalancer_AddIP(gameScript gameScript)
+		{
+			if (MainPlugin.devAddIP_PointsMultiplyValue.Value != 0f)
+			{
+				gameScript.AddIpPoints(MainPlugin.devAddIP_PointsMultiplyValue.Value);
+			}
+		}
 
-		public void Rebalarancer_EachButton()
+		public void Rebalancer_ResetBoredFans(GUI_Main guiMain, mainScript mainScript)
+        {
+			if (MainPlugin.dev_ResetBoredFansMultiplyValue.Value != 0f)
+			{
+				//GameObject gameObject = guiMain.GetComponent<GameObject>();
+				//Traverse.Create(guiMain).Method("UpdateLangweiligIcon");
+				if (guiMain.uiObjects[258].activeSelf)
+				{
+					mainScript.gelangweiltGenre = -1;
+					guiMain.uiObjects[258].SetActive(false);
+				}
+			}
+
+		}
+
+		[HarmonyPostfix, HarmonyPatch(typeof(GUI_Main), "UpdateLangweiligIcon")]
+		static void UpdateLangweiligIconPatch(GUI_Main __instance, mainScript ___mS_)
+        {
+			if (enabledBoredFans)
+			{
+				FreeUpdateRebalancer freeUpdateRebalancer = new FreeUpdateRebalancer();
+				freeUpdateRebalancer.Rebalancer_ResetBoredFans(__instance, ___mS_);
+			}
+		}
+
+		[HarmonyPostfix, HarmonyPatch(typeof(mainScript), "MonatlicheUpdates")]
+		static void MonatlicheUpdatesPatch()
+        {
+			enabledBoredFans = false;
+        }
+		public void Rebalancer_EachButton()
 		{
 			gameScript gS = _tmpUpdateGameScript;
+			GUI_Main guiMain = _tmpUpdateGuiMain;
+			mainScript mainScript = _tmpUpdatemainScript;
 			GameObject gameObject = GameObject.Find("GAME_" + gS.myID.ToString());
 			gameScript gameScript = gameObject.GetComponent<gameScript>();
 			Rebalancer_AddHype(gameScript);
 			Rebalancer_AddFans(gameScript);
+			Rebalancer_AddIP(gameScript);
+			//enabledBoredFans = false;
+			if (MainPlugin.dev_ResetBoredFansMultiplyValue.Value != 0f)
+			{
+				int judgeFansComeBack = Mathf.RoundToInt(UnityEngine.Random.Range(MainPlugin.dev_ResetBoredFansMultiplyValue.Value, 100));
+				Debug.Log(judgeFansComeBack);
+				if (judgeFansComeBack >= 99)
+				{
+					if (mainScript.gelangweiltGenre != -1)
+					{
+						enabledBoredFans = true;
+					}
+				}
+			}
 		}
+		public void taskUpdate_Complete_Startup(taskUpdate taskUpdate, gameScript gS_, GUI_Main guiMain_, mainScript mS_)
+		{
+			int roomID = Traverse.Create(taskUpdate).Method("FindMyRoomWithTask").GetValue<int>();
+			_roomID = roomID;
+			Traverse.Create(taskUpdate).Method("FindMyObject");
+			_tmpUpdateGameScript = gS_;
+			_tmpUpdateGuiMain = guiMain_;
+			_tmpUpdatemainScript = mS_;
+			Debug.Log("taskUpdate_Complete_Startup");
+		}
+
+		public void taskUpdate_Complete_Init()
+        {
+			//init member
+			_buttonsAmount = 0;
+			_roomID = 0;
+			_tmpUpdateGameScript = null;
+			_tmpUpdateGuiMain = null;
+			_tmpUpdatemainScript = null;
+			Debug.Log("taskUpdate_Complete_Init");
+		}
+
 		public void taskUpdate_Complete_Injecter()
 		{
 			int roomID = _roomID;
-			FreeUpdateRebalancer freeUpdateRebalancer = new FreeUpdateRebalancer();
 			GameObject gameObject = GameObject.Find("Room_" + roomID.ToString());
 			roomScript roomScript = gameObject.GetComponent<roomScript>();
 			GameObject taskGameObject = roomScript.taskGameObject;
@@ -98,36 +175,32 @@ namespace FreeUpdateRebalancer
 					for (int j = 0; j < _buttonsAmount; j++)
 					{
 						//Hype, Fansなどの設定
-						Rebalarancer_EachButton();
+						Rebalancer_EachButton();
 
 						//ポイントなどの設定
 						Rebalancer_AddBonusSells(taskUpdateObject);
 
 					}
-					//init member
-					_buttonsAmount = 0;
-					_amountUpdateAmount = 0;
-					_roomID = 0;
-					_tmpUpdateGameScript = null;
-
 				}
-            }
+				Debug.Log("taskUpdate_Complete_Injecter");
+			}
 		}
-
 		[HarmonyPostfix, HarmonyPatch(typeof(taskUpdate), "Complete")]
-		static void taskUpdate_Complete_PostPatch(taskUpdate __instance, gameScript ___gS_)
+		static void taskUpdate_Complete_PostPatch(taskUpdate __instance, gameScript ___gS_, GUI_Main ___guiMain_, mainScript ___mS_)
         {
-			int roomID = Traverse.Create(__instance).Method("FindMyRoomWithTask").GetValue<int>();
-			_roomID = roomID;
-			Traverse.Create(__instance).Method("FindMyObject");
-			_tmpUpdateGameScript = ___gS_;
 			FreeUpdateRebalancer FreeUpdateRebalancer = new FreeUpdateRebalancer();
+			FreeUpdateRebalancer.taskUpdate_Complete_Startup(__instance, ___gS_,___guiMain_, ___mS_);
 			FreeUpdateRebalancer.taskUpdate_Complete_Injecter();
 
+			bool DoAutomatic = Traverse.Create(__instance).Method("DoAutomatic").GetValue<bool>();
+			if (!DoAutomatic)
+			{
+				FreeUpdateRebalancer.taskUpdate_Complete_Init();
+			}
+			Debug.Log("Complete");
 		}
 
-
-		[HarmonyPrefix, HarmonyPatch(typeof(Menu_Dev_Update), "GetP_Gameplay")]
+			[HarmonyPrefix, HarmonyPatch(typeof(Menu_Dev_Update), "GetP_Gameplay")]
 		static bool GetP_GameplayPatch(Menu_Dev_Update __instance, gameScript ___gS_, ref int __result)
 		{
 			//Free Update of points more ehnanced.
@@ -300,7 +373,6 @@ namespace FreeUpdateRebalancer
                 Button_Mn[i] = "Button_M" + (i + 1) + "/TextProzent";
 				GameObject.Find(Button_Mn[i]).GetComponent<Text>().text = String.Join(string.Empty, "+", TextProzent[i].ToString(), "%");
 			}
-
 			m.Method("UpdateGUI");
 		}
 
