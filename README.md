@@ -3,7 +3,7 @@ The mod allows rebalance  Free Update of your games with config by yourself!
 
 # [Deleted on Steam, Mod sub thread]
 Idk why my thread deleted cuz anoter modifying dll modder still not get deleted...
-But keep it go to make dll mod anyway.
+But keep it going to make and update dll mod anyway.
 
 # [How it works?]
 This mod allows rebalance Free Update of your games.
