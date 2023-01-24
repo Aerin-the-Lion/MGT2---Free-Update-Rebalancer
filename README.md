@@ -16,6 +16,10 @@ For now, the following eight can be adjusted.<br>
 8. Reset Bored Fans for every Free Update at n% chance<br>( Default : 0 , This is not feature in original game. If you got ****in' Bored Fans, Free Update cares this debuff at n% chance. **Bored Fans come back to debuff again every monthly.**)
 <br>
 
+[2023.01.24 V1.30]<br>
+Added new feature, limited automatic repeat.<br>
+Maybe unstable please give me a comment if you have crashes or something.<br>
+
 # [How to use?]
 1. In Main menu or In Game, Please press [F1] to open Config Manager.
 2. Then, Click Free-Update-Rebalancer and adjust value if you want to.
