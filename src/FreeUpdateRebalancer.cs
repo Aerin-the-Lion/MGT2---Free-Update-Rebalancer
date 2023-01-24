@@ -85,7 +85,7 @@ namespace FreeUpdateRebalancer
 		}
 		public void Rebalancer_MinusYear(mainScript main_)
 		{
-			if (MainPlugin.devAddIP_PointsMultiplyValue.Value != 0f)
+			if (MainPlugin.dev_MinusYearValue.Value != 0f)
 			{
 				main_.year--;
 			}
