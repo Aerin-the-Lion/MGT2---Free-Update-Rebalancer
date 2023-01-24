@@ -44,7 +44,7 @@ Maybe unstable please give me a comment if you have crashes or something.<br>
 <br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
 3. Install My mod of Free-Update-Rebalancer. 
-<br>https://github.com/Aerin-the-Lion/MGT2---Free-Update-Rebalancer/releases/download/Release/
+<br>https://github.com/Aerin-the-Lion/MGT2---Free-Update-Rebalancer/releases/download/Release
 <br>After extract zip, Drag and Drop all of files your MGT2 folder(in the same place with Games Tycoon 2.exe.)
 
 # [Compatible version]
