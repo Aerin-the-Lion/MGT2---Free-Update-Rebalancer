@@ -33,7 +33,8 @@ namespace FreeUpdateRebalancer
 		public static bool enabledBoredFans { get; private set; }
 
 		public static GameObject inputLoopNumber;
-		public static int countLoopNumber;
+		public static int countLoopNumber = 0;
+		public static bool isLoopStart = false;
 
 		public void Rebalancer_AddHype(gameScript gameScript)
 		{
@@ -163,6 +164,7 @@ namespace FreeUpdateRebalancer
 			_tmpUpdateGameScript = null;
 			_tmpUpdateGuiMain = null;
 			_tmpUpdatemainScript = null;
+			countLoopNumber = 0;
 			Debug.Log("taskUpdate_Complete_Init");
 		}
 
@@ -195,23 +197,6 @@ namespace FreeUpdateRebalancer
 				Debug.Log("taskUpdate_Complete_Injecter");
 			}
 		}
-		[HarmonyPrefix, HarmonyPatch(typeof(taskUpdate), "Complete")]
-		static bool taskUpdate_Complete_LimitedLoopPatch(taskUpdate __instance, gameScript ___gS_, GUI_Main ___guiMain_, mainScript ___mS_)
-        {
-			bool DoAutomatic = Traverse.Create(__instance).Method("DoAutomatic").GetValue<bool>();
-			///////// 2023.01.24 有限ループ処理用
-			if (DoAutomatic && inputLoopNumber != null)
-			{
-				countLoopNumber++;
-				if (Int32.Parse(inputLoopNumber.GetComponent<InputField>().text) == countLoopNumber)
-				{
-					DoAutomatic = false;
-					__instance.automatic = false;
-					countLoopNumber = 0;
-				}
-			}
-			return true;
-		}
 		[HarmonyPostfix, HarmonyPatch(typeof(taskUpdate), "Complete")]
 		static void taskUpdate_Complete_PostPatch(taskUpdate __instance, gameScript ___gS_, GUI_Main ___guiMain_, mainScript ___mS_)
         {
@@ -219,7 +204,16 @@ namespace FreeUpdateRebalancer
 			FreeUpdateRebalancer.taskUpdate_Complete_Startup(__instance, ___gS_,___guiMain_, ___mS_);
 			FreeUpdateRebalancer.taskUpdate_Complete_Injecter();
 
-			bool DoAutomatic = Traverse.Create(__instance).Method("DoAutomatic").GetValue<bool>();
+			///////// 2023.01.24 有限ループ処理用
+			if (__instance.automatic && inputLoopNumber != null)
+			{
+				countLoopNumber++;
+				if (Int32.Parse(inputLoopNumber.GetComponent<InputField>().text) == countLoopNumber)
+				{
+					__instance.automatic = false;
+					countLoopNumber = 0;
+				}
+			}
 
 			if (!__instance.automatic)
 			{
@@ -365,8 +359,9 @@ namespace FreeUpdateRebalancer
 		[HarmonyPostfix, HarmonyPatch(typeof(Menu_Dev_Update), "BUTTON_Start")]
 		static void BUTTON_StartPatch(Menu_Dev_Update __instance, gameScript ___gS_, mainScript ___mS_, GUI_Main ___guiMain_, roomScript ___rS_)
 		{
-			//init _buttonsAmount;
+			//init _buttonsAmount and something;
 			_buttonsAmount = 0;
+			countLoopNumber = 0;
 			bool[] buttonAdds = Traverse.Create(__instance).Field("buttonAdds").GetValue<bool[]>();
 			for (int j = 0; j < buttonAdds.Length; j++)
 			{
@@ -462,10 +457,12 @@ namespace FreeUpdateRebalancer
 				Vector2 sizeDelta = inputLoopNumber.GetComponent<RectTransform>().sizeDelta;
 				sizeDelta.x = Mathf.RoundToInt(sizeDelta.x / 3);
 				inputLoopNumber.GetComponent<RectTransform>().sizeDelta = sizeDelta;
-				inputLoopNumber.GetComponentInChildren<Text>().text = "Loop N";
-				inputLoopNumber.GetComponentInChildren<setText>().c = "Loop N";
 				inputLoopNumber.GetComponent<InputField>().contentType = InputField.ContentType.IntegerNumber;	//整数のみ許可する
 			}
+			inputLoopNumber.GetComponentInChildren<Text>().text = "Loop N";
+			inputLoopNumber.GetComponentInChildren<setText>().c = "Loop N";
+			GameObject placeholder = inputLoopNumber.transform.Find("Placeholder").gameObject;
+			placeholder.GetComponent<Text>().text = "Loop N";
 		}
 
 	}
