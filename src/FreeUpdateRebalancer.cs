@@ -15,7 +15,7 @@ using System.Reflection;
 namespace FreeUpdateRebalancer
 {
 
-	public class FreeUpdateRebalancer
+	public class FreeUpdateRebalancer : MonoBehaviour
 	{
 
 		/// <summary>
@@ -31,6 +31,9 @@ namespace FreeUpdateRebalancer
 		public static int _amountUpdateAmount { get; private set; }
 		public static int _roomID { get; private set; }
 		public static bool enabledBoredFans { get; private set; }
+
+		public static GameObject inputLoopNumber;
+		public static int countLoopNumber;
 
 		public void Rebalancer_AddHype(gameScript gameScript)
 		{
@@ -79,6 +82,13 @@ namespace FreeUpdateRebalancer
 				gameScript.AddIpPoints(MainPlugin.devAddIP_PointsMultiplyValue.Value);
 			}
 		}
+		public void Rebalancer_MinusYear(mainScript main_)
+		{
+			if (MainPlugin.devAddIP_PointsMultiplyValue.Value != 0f)
+			{
+				main_.year--;
+			}
+		}
 
 		public void Rebalancer_ResetBoredFans(GUI_Main guiMain, mainScript mainScript)
         {
@@ -120,12 +130,12 @@ namespace FreeUpdateRebalancer
 			Rebalancer_AddHype(gameScript);
 			Rebalancer_AddFans(gameScript);
 			Rebalancer_AddIP(gameScript);
+			Rebalancer_MinusYear(mainScript);
 			//enabledBoredFans = false;
 			if (MainPlugin.dev_ResetBoredFansMultiplyValue.Value != 0f)
 			{
-				int judgeFansComeBack = Mathf.RoundToInt(UnityEngine.Random.Range(MainPlugin.dev_ResetBoredFansMultiplyValue.Value, 100));
-				Debug.Log(judgeFansComeBack);
-				if (judgeFansComeBack >= 99)
+				int judgeFansComeBack = Mathf.RoundToInt(UnityEngine.Random.Range(0, 100));
+				if (judgeFansComeBack < MainPlugin.dev_ResetBoredFansMultiplyValue.Value)
 				{
 					if (mainScript.gelangweiltGenre != -1)
 					{
@@ -185,6 +195,23 @@ namespace FreeUpdateRebalancer
 				Debug.Log("taskUpdate_Complete_Injecter");
 			}
 		}
+		[HarmonyPrefix, HarmonyPatch(typeof(taskUpdate), "Complete")]
+		static bool taskUpdate_Complete_LimitedLoopPatch(taskUpdate __instance, gameScript ___gS_, GUI_Main ___guiMain_, mainScript ___mS_)
+        {
+			bool DoAutomatic = Traverse.Create(__instance).Method("DoAutomatic").GetValue<bool>();
+			///////// 2023.01.24 有限ループ処理用
+			if (DoAutomatic && inputLoopNumber != null)
+			{
+				countLoopNumber++;
+				if (Int32.Parse(inputLoopNumber.GetComponent<InputField>().text) == countLoopNumber)
+				{
+					DoAutomatic = false;
+					__instance.automatic = false;
+					countLoopNumber = 0;
+				}
+			}
+			return true;
+		}
 		[HarmonyPostfix, HarmonyPatch(typeof(taskUpdate), "Complete")]
 		static void taskUpdate_Complete_PostPatch(taskUpdate __instance, gameScript ___gS_, GUI_Main ___guiMain_, mainScript ___mS_)
         {
@@ -193,7 +220,8 @@ namespace FreeUpdateRebalancer
 			FreeUpdateRebalancer.taskUpdate_Complete_Injecter();
 
 			bool DoAutomatic = Traverse.Create(__instance).Method("DoAutomatic").GetValue<bool>();
-			if (!DoAutomatic)
+
+			if (!__instance.automatic)
 			{
 				FreeUpdateRebalancer.taskUpdate_Complete_Init();
 			}
@@ -408,5 +436,37 @@ namespace FreeUpdateRebalancer
 			//**** Added ended ****
 			__result = num;
 		}
+
+
+
+		//有限の処理を可能にするためのループ用テキストボックスを用意
+		[HarmonyPostfix, HarmonyPatch(typeof(Menu_Dev_Update), "Init")]
+		static void AddTextBox(Menu_Dev_Update __instance, gameScript ___gS_, mainScript ___mS_, GameObject ___main_, GUI_Main ___guiMain_)
+        {
+			if (GameObject.Find("Menu_Dev_Update/WindowMain/inputLoopNumber") == null)
+			{
+				//DevGameのテキストボックスをインスタンス化する
+				//var cloneTextBox = Instantiate(menu_DevGame.uiObjects[0]);
+				GameObject parent = GameObject.Find("CanvasInGameMenu");
+				GameObject originalInputFieldName = parent.transform.Find("Menu_Dev_Game/WindowMain/Seite1/InputFieldName").gameObject;
+
+				inputLoopNumber = Instantiate(originalInputFieldName);	//インスタンス化
+				inputLoopNumber.name = "inputLoopNumber";
+				inputLoopNumber.transform.parent = parent.transform.Find("Menu_Dev_Update/WindowMain").transform;   //親子関係を結ぶ
+
+				//形や座標をいい感じにする
+				GameObject ToggleAuto = parent.transform.Find("Menu_Dev_Update/WindowMain/ToggleAuto").gameObject;
+				Vector3 set_Position = ToggleAuto.transform.localPosition;
+				set_Position.x = -70;
+				inputLoopNumber.transform.localPosition = set_Position;
+				Vector2 sizeDelta = inputLoopNumber.GetComponent<RectTransform>().sizeDelta;
+				sizeDelta.x = Mathf.RoundToInt(sizeDelta.x / 3);
+				inputLoopNumber.GetComponent<RectTransform>().sizeDelta = sizeDelta;
+				inputLoopNumber.GetComponentInChildren<Text>().text = "Loop N";
+				inputLoopNumber.GetComponentInChildren<setText>().c = "Loop N";
+				inputLoopNumber.GetComponent<InputField>().contentType = InputField.ContentType.IntegerNumber;	//整数のみ許可する
+			}
+		}
+
 	}
 }
